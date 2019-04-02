@@ -9,6 +9,8 @@
 </template>
 
 <script>
+  import jsonp from 'jsonp'
+
   export default {
       name: 'recommend',
       data() {
@@ -17,10 +19,17 @@
               }
       },
       created() {
-            this.$axios.get('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',{Origin:'https://m.y.qq.com'})
-            .then(function(response){
+          jsonp('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',
+          {
+             param : 'text/html'
+          },function(response){
                 console.log(response);
             });
+
+            // this.$axios.get('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',{Origin:'https://m.y.qq.com'})
+            // .then(function(response){
+            //     console.log(response);
+            // });
       }
   }
 
