@@ -1,41 +1,62 @@
 <template>
-    <div class="wrapper">
-       <ul class="content">
-           <li v-for="item in slideItem" v-bind:key="item.id">
-               {{item}}
-           </li>
-       </ul>
-    </div>
+<div>
+  <carousel v-bind:iterms = "slideItem">
+   
+  </carousel>
+</div>
+
 </template>
 
 <script>
   import jsonp from 'jsonp'
+  import carousel from '@/base/scroll/carousel'
 
   export default {
       name: 'recommend',
+      components:{
+          carousel
+      },
       data() {
           return {
-              slideItem:[]
+             slideItem:[]
               }
       },
       created() {
-          jsonp('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',
+         jsonp('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?_=1554691949882&g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1',
           {
-             param : 'text/html'
-          },function(response){
-                console.log(response);
-            });
-
-            // this.$axios.get('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',{Origin:'https://m.y.qq.com'})
-            // .then(function(response){
-            //     console.log(response);
-            // });
+             param : 'jsonpCallback'
+          },(err,response) =>{
+               this.slideItem = response.data.slider;
+          });
+      },
+      mounted(){
+          this.initPicturePost();
+      },
+      methods:{
+        initPicturePost(){
+             var _this_ = this;
+             var liElemnts = _this_.$refs.picCarousel.children;
+             var precentRatio = 100/3;
+                 if(liElemnts){
+                  liElemnts.foreach(function(v){
+                          
+                      if(v.previousElementSibling && v.nextElementSibling){
+                           v.style.transform = 'translateX(' + precentRatio + '%)';
+                      }else if(!v.previousElementSibling){
+                           v.style.transform = 'translateX(0%)';
+                      }else{
+                          v.style.transform = 'translateX(-' + precentRatio + '%)'; 
+                      }
+                     
+                  });
+               }
+            }
       }
   }
 
 </script>
 
 
-<style>
+<style scoped>
 
 </style>
