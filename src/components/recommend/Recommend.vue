@@ -30,27 +30,10 @@
           });
       },
       mounted(){
-          this.initPicturePost();
+        //   this.initPicturePost();
       },
       methods:{
-        initPicturePost(){
-             var _this_ = this;
-             var liElemnts = _this_.$refs.picCarousel.children;
-             var precentRatio = 100/3;
-                 if(liElemnts){
-                  liElemnts.foreach(function(v){
-                          
-                      if(v.previousElementSibling && v.nextElementSibling){
-                           v.style.transform = 'translateX(' + precentRatio + '%)';
-                      }else if(!v.previousElementSibling){
-                           v.style.transform = 'translateX(0%)';
-                      }else{
-                          v.style.transform = 'translateX(-' + precentRatio + '%)'; 
-                      }
-                     
-                  });
-               }
-            }
+ 
       }
   }
 

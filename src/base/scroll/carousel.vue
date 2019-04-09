@@ -26,32 +26,67 @@
        props:['iterms'],
        data(){
            return {
-               pos:0
+               pos:0,
+               liElemnts : []
            } 
        },
        created(){
        
        },
-       mounted(){
+       updated(){
            console.log(this.iterms);
-        //    this.initPicturePost();
-        //    autoPlay();
+          this.$nextTick(()=>{
+              this.initPicturePost();
+              this.autoPlay();
+          }); 
+        
        },
        methods: {
-     
-            //,
-        //    autoPlay(){
-        //     var _this_ = this;
-        //     setInterval(() => {
-        //        let liElemnts = _this_.$refs.picCarousel.children;
-        //        if(liElemnts){
-        //           liElemnts.foreach(function(v){
-        //               prev = v.previousElementSibling? v.previousElementSibling : firstElement;
-        //           });
-        //        }
+        initPicturePost(){
+             var _this_ = this;
+            this.liElemnts = _this_.$refs.picCarousel.children;
+             if(this.liElemnts.length){
+               Array.prototype.slice.call(this.liElemnts).forEach(function(v){
+
+                      if(v.previousElementSibling && v.nextElementSibling){
+                           v.style.transform = 'translateX(100%)';
+                            v.style.transitionDuration = '0ms'
+                      }else if(!v.previousElementSibling){
+                           v.style.transform = 'translateX(0%)';
+                           v.style.transitionDuration = '300ms';
+                      }else{
+                          v.style.transform = 'translateX(-100%)'; 
+                           v.style.transitionDuration = '300ms'
+                      }
+                     
+                  });
+               }
+            },
+           autoPlay(){
+            var _this_ = this;
+            setInterval(() => {
+               let lastElement = this.liElemnts[this.liElemnts.length-1];
+               let tempTransform,tempTransitionDuration;
+               let loop=0,v=lastElement;
+               if(this.liElemnts.length){
+               do{
+                  
+                  let  prev = v.previousElementSibling? v.previousElementSibling : lastElement;
+                    tempTransform = prev.style.transform;
+                    tempTransitionDuration = prev.style.transitionDuration;
+
+                    prev.style.transform = v.style.transform;
+                    prev.style.transitionDuration = v.style.transitionDuration;
+
+                    v.style.transform = tempTransform;
+                    v.style.transitionDuration = tempTransitionDuration;
+                    v = prev;
+                    
+                 }while(v.previousElementSibling );
+               }
            
-        //    },1000);
-        //  }
+           },2000);
+         }
        }
    }
 </script>
