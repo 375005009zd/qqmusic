@@ -1,24 +1,34 @@
 <template>
 <div>
-  <carousel v-bind:iterms = "slideItem">
-   
-  </carousel>
+  <!-- 图片轮播图 -->
+  <Carousel v-bind:iterms = "slideItem">
+  </Carousel>
+  
+  <RadioList v-bind:items = "radioItem"></RadioList>
+
+  <HotList  v-bind:items = "hotItem"></HotList>
 </div>
 
 </template>
 
 <script>
   import jsonp from 'jsonp'
-  import carousel from '@/base/scroll/carousel'
+  import Carousel from '@/base/scroll/carousel'
+  import RadioList from './radiolist'
+  import HotList from './hotlist'
 
   export default {
       name: 'recommend',
       components:{
-          carousel
+          Carousel,
+          RadioList,
+          HotList
       },
       data() {
           return {
-             slideItem:[]
+             slideItem:[],
+             radioItem:[],
+             hotItem:[]
               }
       },
       created() {
@@ -27,6 +37,8 @@
              param : 'jsonpCallback'
           },(err,response) =>{
                this.slideItem = response.data.slider;
+               this.radioItem =response.data.radioList ;
+               this.hotItem = response.data.songList;
           });
       },
       mounted(){

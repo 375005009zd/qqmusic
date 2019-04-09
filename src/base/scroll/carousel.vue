@@ -1,22 +1,14 @@
 <template>
-    <div>
-      <div class="wrapper">
+       <div class="wrapper">
         <ul class="content" ref="picCarousel">
             <li class="item" v-for="item in iterms" v-bind:key="item.id" v-bind:ref="item.id">
                 <router-link to=""><img v-bind:src="item.picUrl"></router-link>
             </li>
         </ul>
-        </div> 
-<!--         <div class="dot">
-            <ul>
-                <li class="slide-dot">hao</li>
-                <li class="slide-dot">hao</li>
-                <li class="slide-dot">hao</li>
-                <li class="slide-dot">hao</li>
-                <li class="slide-dot">hao</li>
-            </ul>
-        </div> -->
-    </div>
+        <!-- <div class="dot-wrapper" ref="dot" >
+                <i class="slide-dot" v-for="item in iterms" v-bind:key="item.id + 'dot'"></i>
+         </div>  -->
+     </div> 
 </template>
 
 <script>
@@ -34,10 +26,12 @@
        
        },
        updated(){
-           console.log(this.iterms);
           this.$nextTick(()=>{
+              //设置图片的高度
+              let height = document.querySelector(".item img").offsetHeight;
+              this.$refs.picCarousel.style.height = height + 'px';
               this.initPicturePost();
-              this.autoPlay();
+               this.autoPlay();
           }); 
         
        },
@@ -91,10 +85,11 @@
    }
 </script>
 
-<style>
+<style scoped>
    .wrapper {
        position:relative;
        width:100%;
+       height:100%;
        /* overflow:hidden; */
    }
 
@@ -111,6 +106,25 @@
 
   .item img{
       width:100%;
+  }
+
+  .dot-wrapper{
+    position: relative;
+    top: -30px;
+  }
+
+  .slide-dot{
+    display:inline-block;
+    width: 10px;
+    height: 10px;
+    background: #9c8c8c;
+    border-radius: 5px;
+    margin-right:5px;
+  }
+
+  .current-dot{
+    background: #fff;
+    opacity:0.8
   }
 </style>
 

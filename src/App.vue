@@ -10,7 +10,7 @@
       <router-link  to="/rank">排行榜</router-link>
       <router-link  to="/searchsing">搜索</router-link>
     </nav>
-    <div>
+    <div class="main">
       <router-view/>
     </div>
   </div>
@@ -63,5 +63,9 @@ a{
 .nav-tab a.current-active{
   border-bottom: 2px solid #49c98b;
   color: #49c98b;
+}
+
+.main{
+      background: #f4f4f4;
 }
 </style>
