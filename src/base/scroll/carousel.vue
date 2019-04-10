@@ -1,7 +1,7 @@
 <template>
        <div class="wrapper">
-        <ul class="content" ref="picCarousel">
-            <li class="item" v-for="item in iterms" v-bind:key="item.id" v-bind:ref="item.id">
+        <ul class="content" ref="picCarousel" v-bind:style="{height:height}">
+            <li v-for="(item,index) in iterms"  v-bind:key="item.id" v-bind:ref="item.id" v-bind:class="getClass(index)" >
                 <router-link to=""><img v-bind:src="item.picUrl"></router-link>
             </li>
         </ul>
@@ -19,26 +19,59 @@
        data(){
            return {
                pos:0,
-               liElemnts : []
+               liElemnts : [],
+               height:'',
+               firstIndex:0,
+               lastIndex:4,
+               flagAnimation:true
            } 
        },
        created(){
-       
-       },
-       updated(){
-          this.$nextTick(()=>{
-              //设置图片的高度
-              let height = document.querySelector(".item img").offsetHeight;
-              this.$refs.picCarousel.style.height = height + 'px';
-              this.initPicturePost();
-               this.autoPlay();
-          }); 
         
        },
+       updated(){
+      
+         
+          this.$nextTick(()=>{
+               var _this_ = this;
+                this.liElemnts = _this_.$refs.picCarousel.children;
+                 Array.prototype.slice.call(this.liElemnts).forEach(function(v){
+                   v.addEventListener('transitionstart',function(){
+                    _this_.flagAnimation = false;
+                    });
+                  
+                  v.addEventListener('transitionend',function(){
+                          _this_.flagAnimation = true;
+                    });
+               });
+              //设置图片的高度
+              let height = document.querySelector(".item img").offsetHeight;
+              this.height = height + 'px';
+              this.initPicturePost();
+               this.autoPlay();
+
+            
+          }); 
+          //  window.onresize=()=>{
+          //     clearInterval(this.timer);
+          //     let height = document.querySelector(".item img").offsetHeight;
+          //     this.height = height + 'px';
+          //     this.initPicturePost();
+          //     // this.autoPlay();
+          //  }
+       },
        methods: {
+         getClass(id){
+         
+           let obj =  {
+              item : true
+           };
+           obj[`li${id}`] = true;
+           return obj;
+         },
         initPicturePost(){
              var _this_ = this;
-            this.liElemnts = _this_.$refs.picCarousel.children;
+
              if(this.liElemnts.length){
                Array.prototype.slice.call(this.liElemnts).forEach(function(v){
 
@@ -58,28 +91,45 @@
             },
            autoPlay(){
             var _this_ = this;
-            setInterval(() => {
-               let lastElement = this.liElemnts[this.liElemnts.length-1];
-               let tempTransform,tempTransitionDuration;
-               let loop=0,v=lastElement;
-               if(this.liElemnts.length){
-               do{
-                  
-                  let  prev = v.previousElementSibling? v.previousElementSibling : lastElement;
-                    tempTransform = prev.style.transform;
-                    tempTransitionDuration = prev.style.transitionDuration;
+            this.timer = setInterval(() => {
+              if(_this_.flagAnimation){
+              
+               _this_.lastIndex = (_this_.firstIndex<=0)? 4:_this_.firstIndex-1; 
+            
+               let currentEl = _this_.liElemnts[_this_.firstIndex],
+                   leftEl = _this_.liElemnts[_this_.lastIndex];
+        
+                
+                _this_.firstIndex = (_this_.firstIndex>=4)? 0:++_this_.firstIndex;
 
-                    prev.style.transform = v.style.transform;
-                    prev.style.transitionDuration = v.style.transitionDuration;
+               let nextVisible = _this_.liElemnts[_this_.firstIndex];
 
-                    v.style.transform = tempTransform;
-                    v.style.transitionDuration = tempTransitionDuration;
-                    v = prev;
+                    leftEl.style.transform = 'translateX(100%)';
+                    leftEl.style.transitionDuration = '0ms'
                     
-                 }while(v.previousElementSibling );
-               }
-           
-           },2000);
+                    nextVisible.style.transform = 'translateX(0%)';
+                    nextVisible.style.transitionDuration = '300ms';
+                
+                    currentEl.style.transform = 'translateX(-100%)'; 
+                    currentEl.style.transitionDuration = '300ms'
+                _this_.flagAnimation = true;
+              }
+        
+   
+
+
+                // tempTransform = currentEl.style.transform;
+                // tempTransitionDuration = currentEl.style.transitionDuration;
+
+                // currentEl.style.transform = leftEl.style.transform;
+                // currentEl.style.transitionDuration = leftEl.style.transitionDuration;
+
+                // leftEl.style.transform = nextVisible.style.transform;
+                // leftEl.style.transitionDuration = nextVisible.style.transitionDuration;
+                     
+                // nextVisible.style.transform  = tempTransform;
+                // nextVisible.style.transitionDuration = tempTransitionDuration;
+           },20000);
          }
        }
    }

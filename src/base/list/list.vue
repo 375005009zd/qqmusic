@@ -7,9 +7,19 @@
             <ul class="list-wrapper">
                 <li class="list-item" v-for="item in items" v-bind:key="item.id">
                     <router-link to=''>
-                        <img v-bind:src="item.picUrl">
-                        <p class="songDesc">{{item.songListDesc}}</p>
-                        <p class="songAuthor">{{item.songListAuthor}}</p>
+                        <div class="list-img">
+                            <img v-bind:src="item.picUrl">
+                            <div class="list-info">
+                                <span class="icon icon-listener"> </span>
+                                <span class="accessnum">{{item.accessnum}}</span>
+                                <span class="icon icon-play"></span>
+                            </div>
+                           
+                        </div>
+                       
+                        <p v-show="item.Ftitle" class="songAuthor">{{item.Ftitle}}</p>
+                        <p v-show="item.songListDesc" class="songDesc">{{item.songListDesc}}</p>
+                        <p v-show="item.songListDesc" class="songAuthor">{{item.songListAuthor}}</p>
                     </router-link>
                 </li>
             </ul>
@@ -65,4 +75,41 @@
       font-size:12px;
       color:#000;
   }
+
+  .list-img{
+      position:relative;
+  }
+
+  .list-info{
+      position:absolute;
+      bottom: 10px;
+      width:100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color:#fff;
+      font-size:8px;
+  }
+
+  .icon{
+    background:url(../../assets/image/list_sprite.png) no-repeat;
+   
+  }
+
+  .icon-listener{
+    display: inline-block;
+    width: 25px;
+    height: 22px;
+    background-position: 5px -81px;
+    background-size: 44px 100px;
+  }
+
+  .icon-play {
+      display: inline-block;
+      width: 25px;
+      height: 22px;
+      background-position: 5px -81px;
+      background-size: 44px 100px;
+  }
+
 </style>
