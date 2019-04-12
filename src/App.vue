@@ -6,9 +6,9 @@
       </header>
     </div>
     <nav class="nav-tab">
-      <router-link  class="current-active" to="/recommend">推荐</router-link>
-      <router-link  to="/rank">排行榜</router-link>
-      <router-link  to="/searchsing">搜索</router-link>
+      <router-link  v-bind:class="{'current-active':id==1}" to="/recommend">推荐</router-link>
+      <router-link   v-bind:class="{'current-active':id==2}" to="/rank">排行榜</router-link>
+      <router-link   v-bind:class="{'current-active':id==3}" to="/searchsing">搜索</router-link>
     </nav>
     <div >
       <router-view/>
@@ -18,7 +18,18 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return {
+      id:1
+    }
+  },
+  methods:{
+    changeActive(index){
+      alert(index);
+        this.id = index;
+    }
+  }
 }
 </script>
 

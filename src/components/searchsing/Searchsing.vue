@@ -29,11 +29,12 @@
          HotKey
       },
       created(){
+        
            jsonp('https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg?_=1555062822433&g_tk=5381&uin=0&format=jsonp&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1',
           {
              param : 'jsonpCallback'
           },(err,response) =>{
-           
+               this.$emit('changeActive',3);
                this.hotKey = response.data;
           });
       }

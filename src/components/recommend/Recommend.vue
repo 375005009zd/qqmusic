@@ -33,6 +33,7 @@
               }
       },
       created() {
+        this.$emit('changeActive',1);
          jsonp('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?_=1554691949882&g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1',
           {
              param : 'jsonpCallback'
