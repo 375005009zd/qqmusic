@@ -10,8 +10,10 @@
                         <div class="list-img">
                             <img v-bind:src="item.picUrl">
                             <div class="list-info">
-                                <span class="icon icon-listener"> </span>
-                                <span class="accessnum">{{item.accessnum}}</span>
+                                <div>
+                                   <span class="icon icon-listener" v-show="item.accessnum"> </span>
+                                   <span class="accessnum">{{(item.accessnum/10000 >=1)? (item.accessnum/10000).toFixed(1) + '万': item.accessnum}}</span>
+                                </div> 
                                 <span class="icon icon-play"></span>
                             </div>
                            
@@ -30,7 +32,19 @@
 <script scoped>
    export default {
        name: 'list',
-       props:['title','items']
+       props:['title','items'],
+    //    computed:{
+    //          items:function(){
+    //              this.items.forEach((v) =>{
+    //                  v.accessnum = (v.accessnum/10000 >=1)? (v.accessnum/10000).toFixed(1) + '万': v.accessnum;
+    //              });
+    //          }
+    //    },
+       methods:{
+        //    getAccessnum(num) {
+        //       return (num/1000).toFixed(1)  + '万';
+        //    }
+       }
    }
 </script>
 
@@ -92,12 +106,12 @@
   }
 
   .icon{
+     display: inline-block;
     background:url(../../assets/image/list_sprite.png) no-repeat;
    
   }
 
   .icon-listener{
-    display: inline-block;
     width: 25px;
     height: 22px;
     background-position: 5px -81px;
@@ -105,11 +119,13 @@
   }
 
   .icon-play {
-      display: inline-block;
-      width: 25px;
-      height: 22px;
-      background-position: 5px -81px;
-      background-size: 44px 100px;
+    width: 28px;
+    height: 25px;
+    background-position: 0px 0px;
+    background-size: 24px 60px;
   }
-
+  
+  .accessnum {
+      vertical-align: super;
+  }
 </style>

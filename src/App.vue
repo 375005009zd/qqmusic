@@ -1,16 +1,16 @@
 <template>
-  <div id="app">
+  <div class="main" id="app">
     <div>
       <header class="title">
       <img class="logo-header" src="//y.gtimg.cn/mediastyle/mod/mobile/img/logo_ch.svg?max_age=2592000" alt="QQ音乐">   
       </header>
     </div>
     <nav class="nav-tab">
-      <router-link class="current-active" to="/recommend">推荐</router-link>
+      <router-link  class="current-active" to="/recommend">推荐</router-link>
       <router-link  to="/rank">排行榜</router-link>
       <router-link  to="/searchsing">搜索</router-link>
     </nav>
-    <div class="main">
+    <div >
       <router-view/>
     </div>
   </div>
@@ -40,6 +40,7 @@ a{
 }
 
 .title{
+   background:#fff;
    padding:15px 0;
 }
 
@@ -48,6 +49,7 @@ a{
 }
 
 .nav-tab{
+  background:#fff;
   font-size:0;
   border-top: 2px solid #f8f8f8;
 }

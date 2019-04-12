@@ -1,6 +1,6 @@
 <template>
        <div class="wrapper">
-        <ul class="content" ref="picCarousel" v-bind:style="{height:height}">
+        <ul class="content" ref="picCarousel" style="height:150px">
             <li v-for="(item,index) in iterms"  v-bind:key="item.id" v-bind:ref="item.id" v-bind:class="getClass(index)" >
                 <router-link to=""><img v-bind:src="item.picUrl"></router-link>
             </li>
@@ -29,36 +29,16 @@
        created(){
         
        },
-       updated(){
+       mounted(){
       
          
           this.$nextTick(()=>{
                var _this_ = this;
                 this.liElemnts = _this_.$refs.picCarousel.children;
-                 Array.prototype.slice.call(this.liElemnts).forEach(function(v){
-                   v.addEventListener('transitionstart',function(){
-                    _this_.flagAnimation = false;
-                    });
-                  
-                  v.addEventListener('transitionend',function(){
-                          _this_.flagAnimation = true;
-                    });
-               });
-              //设置图片的高度
-              let height = document.querySelector(".item img").offsetHeight;
-              this.height = height + 'px';
+   
               this.initPicturePost();
-               this.autoPlay();
+          });
 
-            
-          }); 
-          //  window.onresize=()=>{
-          //     clearInterval(this.timer);
-          //     let height = document.querySelector(".item img").offsetHeight;
-          //     this.height = height + 'px';
-          //     this.initPicturePost();
-          //     // this.autoPlay();
-          //  }
        },
        methods: {
          getClass(id){
@@ -71,7 +51,8 @@
          },
         initPicturePost(){
              var _this_ = this;
-
+                      
+              
              if(this.liElemnts.length){
                Array.prototype.slice.call(this.liElemnts).forEach(function(v){
 
@@ -83,15 +64,18 @@
                            v.style.transitionDuration = '300ms';
                       }else{
                           v.style.transform = 'translateX(-100%)'; 
-                           v.style.transitionDuration = '300ms'
+                           v.style.transitionDuration = ''
                       }
                      
                   });
                }
+                 this.autoPlay();
             },
            autoPlay(){
             var _this_ = this;
+           let n=1,m=1;
             this.timer = setInterval(() => {
+              // alert("n:" + n++);
               if(_this_.flagAnimation){
               
                _this_.lastIndex = (_this_.firstIndex<=0)? 4:_this_.firstIndex-1; 
@@ -113,6 +97,7 @@
                     currentEl.style.transform = 'translateX(-100%)'; 
                     currentEl.style.transitionDuration = '300ms'
                 _this_.flagAnimation = true;
+                //  alert("m:" + m++);
               }
         
    
@@ -129,7 +114,7 @@
                      
                 // nextVisible.style.transform  = tempTransform;
                 // nextVisible.style.transitionDuration = tempTransitionDuration;
-           },20000);
+           },7000);
          }
        }
    }
@@ -152,6 +137,9 @@
   .item{
     position:absolute;
     left:0;
+    float:left;
+    overflow:hidden;
+    width:100%;
   }
 
   .item img{

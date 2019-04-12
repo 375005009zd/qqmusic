@@ -28,7 +28,8 @@
           return {
              slideItem:[],
              radioItem:[],
-             hotItem:[]
+             hotItem:[],
+             topList:[]
               }
       },
       created() {
@@ -40,6 +41,7 @@
                this.radioItem =response.data.radioList ;
                this.hotItem = response.data.songList;
           });
+
       },
       mounted(){
         //   this.initPicturePost();
