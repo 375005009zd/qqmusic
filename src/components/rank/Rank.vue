@@ -62,13 +62,13 @@
 
 .songtop-wrapper{
   display: flex;
-  justify-content: space-between;
+
 }
 
 .songtop-pic{
   position:relative;
   display:inline-block;
-   width:30%;
+  margin:0 10px 0 0 ;
 }
 
 .topic-listen{
@@ -97,7 +97,8 @@
 }
 
 .songtop-pic img{
-  width:100%;
+  width: 100px;
+  height: 100px;
   vertical-align:bottom;
 }
 
